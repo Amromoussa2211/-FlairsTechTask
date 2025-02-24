@@ -1,0 +1,18 @@
+{
+  "name": "newsypress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run --headless",
+    "cypress:open": "cypress open",
+    "allure:generate": "allure generate allure-results --clean",
+    "allure:open": "sleep 2 && allure open",
+    "test:allure": "npm run test && npm run allure:generate && npm run allure:open"
+  },
+  "dependencies": {
+    "cypress": "^14.0.3"
+  },
+  "author": "",
+  "license": "ISC"
+}

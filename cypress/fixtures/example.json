@@ -1,0 +1,16 @@
+{
+  "userCredentials": {
+    "username": "admin",
+    "password": "admin123"
+  },
+  "newUser": {
+    "username": "testUser",
+    "password": "testPassword",
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "testuser@example.com"
+  },
+  "deleteUser": {
+    "username": "testUser"
+  }
+}

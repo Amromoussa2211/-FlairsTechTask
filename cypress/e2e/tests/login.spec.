@@ -1,0 +1,67 @@
+import DashboardPage from '../pages/dashboardPage';
+import LoginPage from '../pages/loginPage';
+
+describe('Dashboard Functionality', () => {
+    const dashboardPage = new DashboardPage();
+
+    it('should verify the admin tab is accessible', () => {
+        dashboardPage.clickAdminTab();
+        cy.url().should('include', '/admin'); // Verify the URL contains '/admin'
+    });
+
+    it('should display the correct record count', () => {
+        dashboardPage.clickAdminTab();
+        dashboardPage.getRecordCount().then((count) => {
+            // Add your assertions here
+        });
+    });
+
+    it('should add a new user', () => {
+        dashboardPage.clickAdminTab();
+        dashboardPage.clickAddButton();
+        dashboardPage.fillRequiredData('newuser', 'password123');
+        dashboardPage.clickSaveButton();
+        // Verify the user was added successfully
+        dashboardPage.searchUser('newuser');
+        cy.get('.user-list').should('contain', 'newuser'); // Adjust selector as necessary
+    });
+
+    it('should delete a user', () => {
+        dashboardPage.clickAdminTab();
+        dashboardPage.searchUser('newuser');
+        dashboardPage.deleteUser();
+        // Verify the user was deleted successfully
+    });
+});
+
+describe('Login Functionality', () => {
+  const loginPage = new LoginPage();
+
+  beforeEach(() => {
+    cy.visit('/web/index.php/auth/login'); // Visit the login page URL
+  });
+
+  it('should successfully log in with valid credentials', () => {
+    loginPage.enterUsername(Cypress.env('username'));
+    loginPage.enterPassword(Cypress.env('password'));
+    loginPage.clickLogin();
+    
+    // Wait for the dashboard to load
+    cy.get('.welcome', { timeout: 10000 }).should('be.visible').then(() => {
+      cy.log('Dashboard loaded successfully');
+    });
+    // No assertions
+  });
+
+  it('should show an error message for invalid credentials', () => {
+    loginPage.enterUsername('InvalidUser');
+    loginPage.enterPassword('InvalidPassword');
+    loginPage.clickLogin();
+    
+    // Wait for the error message to be visible
+    cy.get('.alert-error', { timeout: 10000 }).should('be.visible').then(() => {
+      cy.log('Error message displayed');
+    });
+    // No assertions
+  });
+});
